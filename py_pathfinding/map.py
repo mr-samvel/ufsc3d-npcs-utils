@@ -24,12 +24,18 @@ def update_map(waypoints, links):
     }
 
 
-def test_map():
-    print(_waypoints)
-    print(_links)
-    print(_edges)
-    print(_nodes)
-    print(_neighborns)
+def current_map():
+    help_edges = {
+        ','.join([str(x) for x in k]): v
+        for k, v in _edges.items()
+    }
+    return {
+        "waypoints":_waypoints,
+        "links": _links,
+        "edges": help_edges,
+        "nodes": _nodes,
+        "neighborns": _neighborns,
+    }
 
 
 def dijkstra(orig, dest):

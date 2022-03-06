@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, request
-from py_pathfinding.map import update_map, dijkstra, test_map
+from py_pathfinding.map import update_map, dijkstra, current_map
 
 app = Flask(__name__)
 
@@ -29,6 +29,11 @@ def route_info_test():
    """
 
 
+@app.route('/current_map',methods = ['POST', 'GET'])
+def route_current_map():
+   return current_map()
+
+
 @app.route('/update_map',methods = ['POST'])
 def route_update_map():
    str_waypoints = request.form.get("waypoints")
@@ -36,25 +41,29 @@ def route_update_map():
    waypoints = []
    for waypoint in str_waypoints.split("\n"):
       if waypoint:
-         waypoint = filter(None, waypoint.split(","))
+         waypoint = list(filter(None, waypoint.split(",")))
          waypoints.append((float(waypoint[0]), float(waypoint[1]), waypoint[2]))
 
    links = [
       tuple(
-         map(int, filter(None,link.split(",")))
+         map(int, list(filter(None,link.split(","))))
       )
       for link in str_links.split("\n") 
       if link
    ]
-   print("TEST BEFORE")
-   print(test_map())
-   print(waypoints)
-   print(links)
    update_map(waypoints, links)
-   print("TEST After")
-   print(test_map())
 
    return "Server Map Update"
+
+
+@app.route('/find_path',methods = ['POST'])
+def route_find_path():
+   orig = request.form.get("orig")
+   dest = request.form.get("dest")
+   node_distance, node_prev, path = dijkstra(int(orig), int(dest))
+   str_path = ":" + ":".join([str(p) for p in path]) + ":"
+
+   return str_path
 
 
 if __name__ == '__main__':
