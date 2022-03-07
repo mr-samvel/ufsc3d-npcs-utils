@@ -5,10 +5,10 @@ integer autoLoadOnReset=0;
 string LASTNAME="(NPC)";
 
 // Server config
-integer USE_SERVER_PATHFIND=0; // how often to run the timer
+integer USE_SERVER_PATHFIND=1; // how often to run the timer
 string SERVER_URL="localhost:8080/";
 string SERVER_UPDATE_MAP_URL=SERVER_URL+"update_map";
-string SERVER_FIND_PATH=SERVER_URL+"find_path";
+string SERVER_FIND_PATH_URL=SERVER_URL+"find_path";
 
 
 // Nothing to edit here, see https://github.com/opensimworld/active-npcs for configuration
@@ -451,7 +451,7 @@ LoadMapData()
     if (USE_SERVER_PATHFIND == 1) {
         string waypoints = osGetNotecard("__waypoints");
         string links = osGetNotecard("__links");
-        requestid = llHTTPRequest(
+        llHTTPRequest(
             SERVER_UPDATE_MAP_URL, 
             [
                 HTTP_METHOD,
@@ -459,7 +459,7 @@ LoadMapData()
                 HTTP_MIMETYPE,
                 "application/x-www-form-urlencoded"
             ],
-            "waypoints="+(string)waypoint+
+            "waypoints="+(string)waypoints+
             "&links="+(string)links
         );
     }
@@ -973,6 +973,22 @@ integer ProcessNPCCommand(string inputString)
             SetScriptAlarm(idx, 0);
             aviPath = []+ llListReplaceList(aviPath, [gotoPath], idx, idx);
             aviStatus =  []+llListReplaceList(aviStatus, ["pathf"], idx, idx);
+        }
+        else 
+        {
+            llHTTPRequest(
+                SERVER_FIND_PATH_URL, 
+                [
+                    HTTP_METHOD,
+                    "POST",
+                    HTTP_MIMETYPE,
+                    "application/x-www-form-urlencoded"
+                ],
+                "orig="+(string)nearest+
+                "&dest="+(string)foundId+
+                "&idx="+(string)idx
+            );
+            aviStatus =  []+llListReplaceList(aviStatus, ["wait_response"], idx, idx);
         }
     }
     else if (cmd1 == "setpath")
@@ -1585,6 +1601,10 @@ default
                     // do nothing
                     jump nexttick;
                 }
+                else if (status == "wait_response")
+                {
+                    return;
+                }
 
                 
                 // Execute the next script line if a script is active
@@ -2032,48 +2052,50 @@ default
         }
     }    
 
-}
-
-http_response(key request_id, integer status, list metadata, string body)
-{
-    if (status == 200)
+    http_response(key request_id, integer status, list metadata, string body)
     {
-        type = llJsonGetValue(body, ["type"]);
-        response = llJsonGetValue(body, ["return"]);
-        if (type == "info_test")
+        if (status == 200)
         {
-
-        }
-        else if (type == "current_map")
-        {
-
-        }
-        else if (type == "update_map")
-        {
-
-        }
-        else if (type == "find_path")
-        {
-            integer idx = llJsonGetValue(response, ["idx"]);
-            key uNPC= llList2Key(aviUids, idx);
-            if (uNPC == NULL_KEY)
+            string type = llJsonGetValue(body, ["type"]);
+            string response = llJsonGetValue(body, ["return"]);
+            if (type == "info_test")
             {
-                return 1;
+                llOwnerSay("Web server said: " + response);
             }
-            string gotoPath = llJsonGetValue(response, ["path"]);
-            if (gotoPath == "")
+            else if (type == "current_map")
             {
-                osNpcSay(uNPC, "I 'm dumb. i don't know how to get there ... ");
-                return 1;
+                llOwnerSay("Web server said: " + response);
             }
-            osNpcSay(uNPC, "If you want to go there, follow me.");
-            SetScriptAlarm(idx, 0);
-            aviPath = []+ llListReplaceList(aviPath, [gotoPath], idx, idx);
-            aviStatus =  []+llListReplaceList(aviStatus, ["pathf"], idx, idx);
+            else if (type == "update_map")
+            {
+                llOwnerSay("Web server said: " + response);
+            }
+            else if (type == "find_path")
+            {
+                llOwnerSay("Web server said: " + response);
+                integer idx = (integer)llJsonGetValue(response, ["idx"]);
+                key uNPC= llList2Key(aviUids, idx);
+                if (uNPC == NULL_KEY)
+                {
+                    aviStatus =  []+llListReplaceList(aviStatus, [""], idx, idx);
+                    return;
+                }
+                string gotoPath = llJsonGetValue(response, ["path"]);
+                if (gotoPath == "")
+                {
+                    osNpcSay(uNPC, "I 'm dumb. i don't know how to get there ... ");
+                    return;
+                }
+                osNpcSay(uNPC, "If you want to go there, follow me.");
+                SetScriptAlarm(idx, 0);
+                aviPath = []+ llListReplaceList(aviPath, [gotoPath], idx, idx);
+                aviStatus =  []+llListReplaceList(aviStatus, ["pathf"], idx, idx);
+            }
+        }
+        else 
+        {
+            llOwnerSay("Web server said: " + body);
         }
     }
-    else 
-    {
-        llOwnerSay("Web server said: " + body);
-    }
+
 }
