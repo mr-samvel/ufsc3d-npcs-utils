@@ -62,5 +62,6 @@ def dijkstra(orig, dest):
         while prev_node != -1:
             path.append(prev_node)
             prev_node = node_prev[prev_node]
+    path.reverse()
 
     return node_distance, node_prev, path

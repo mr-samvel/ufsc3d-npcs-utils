@@ -67,3 +67,12 @@ response = requests.post(
     }
 )
 print(response.text)
+response = requests.post(
+    url+"find_path",
+    data = {
+        "orig": 0,
+        "dest": 12,
+        "idx": 0,
+    }
+)
+print(response.text)

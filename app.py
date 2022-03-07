@@ -91,7 +91,8 @@ def route_find_path():
       dest = request.form.get("dest")
       idx = request.form.get("idx")
       node_distance, node_prev, path = dijkstra(int(orig), int(dest))
-      str_path = ":" + ":".join([str(p) for p in path]) + ":"
+      str_path = ":".join([str(p) for p in path])
+      str_path = ":" + str_path + ":" if str_path else str_path
 
       response = {
          "type": "find_path",

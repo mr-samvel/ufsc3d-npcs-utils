@@ -463,8 +463,6 @@ LoadMapData()
             "&links="+(string)links
         );
     }
-
-    
 }
 
 
@@ -966,20 +964,16 @@ integer ProcessNPCCommand(string inputString)
                     cache += gotoPath;
                 }
             }
+            if (gotoPath == "")
+            {
+                osNpcSay(uNPC, "I 'm dumb. i don't know how to get there ... ");
+                return 1;
+            }
+            osNpcSay(uNPC, "If you want to go there, follow me.");
+            SetScriptAlarm(idx, 0);
+            aviPath = []+ llListReplaceList(aviPath, [gotoPath], idx, idx);
+            aviStatus =  []+llListReplaceList(aviStatus, ["pathf"], idx, idx);
         }
-        else
-        {
-            
-        }
-        if (gotoPath == "")
-        {
-            osNpcSay(uNPC, "I 'm dumb. i don't know how to get there ... ");
-            return 1;
-        }
-        osNpcSay(uNPC, "If you want to go there, follow me.");
-        SetScriptAlarm(idx, 0);
-        aviPath = []+ llListReplaceList(aviPath, [gotoPath], idx, idx);
-        aviStatus =  []+llListReplaceList(aviStatus, ["pathf"], idx, idx);
     }
     else if (cmd1 == "setpath")
     {
@@ -2042,5 +2036,44 @@ default
 
 http_response(key request_id, integer status, list metadata, string body)
 {
-    llWhisper(0, "Web server said: " + body);
+    if (status == 200)
+    {
+        type = llJsonGetValue(body, ["type"]);
+        response = llJsonGetValue(body, ["return"]);
+        if (type == "info_test")
+        {
+
+        }
+        else if (type == "current_map")
+        {
+
+        }
+        else if (type == "update_map")
+        {
+
+        }
+        else if (type == "find_path")
+        {
+            integer idx = llJsonGetValue(response, ["idx"]);
+            key uNPC= llList2Key(aviUids, idx);
+            if (uNPC == NULL_KEY)
+            {
+                return 1;
+            }
+            string gotoPath = llJsonGetValue(response, ["path"]);
+            if (gotoPath == "")
+            {
+                osNpcSay(uNPC, "I 'm dumb. i don't know how to get there ... ");
+                return 1;
+            }
+            osNpcSay(uNPC, "If you want to go there, follow me.");
+            SetScriptAlarm(idx, 0);
+            aviPath = []+ llListReplaceList(aviPath, [gotoPath], idx, idx);
+            aviStatus =  []+llListReplaceList(aviStatus, ["pathf"], idx, idx);
+        }
+    }
+    else 
+    {
+        llOwnerSay("Web server said: " + body);
+    }
 }
