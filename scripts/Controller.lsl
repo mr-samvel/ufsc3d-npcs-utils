@@ -4,6 +4,12 @@ integer TIMER_INTERVAL=5; // how often to run the timer
 integer autoLoadOnReset=0;
 string LASTNAME="(NPC)";
 
+// Server config
+integer USE_SERVER_PATHFIND=0; // how often to run the timer
+string SERVER_URL="localhost:8080/";
+string SERVER_UPDATE_MAP_URL=SERVER_URL+"update_map";
+string SERVER_FIND_PATH=SERVER_URL+"find_path";
+
 
 // Nothing to edit here, see https://github.com/opensimworld/active-npcs for configuration
 
@@ -442,6 +448,23 @@ LoadMapData()
     }
     llOwnerSay("loaded "+(string)(llGetListLength(wLinks)/2)+" links");
     cache = [];
+    if (USE_SERVER_PATHFIND == 1) {
+        string waypoints = osGetNotecard("__waypoints");
+        string links = osGetNotecard("__links");
+        requestid = llHTTPRequest(
+            SERVER_UPDATE_MAP_URL, 
+            [
+                HTTP_METHOD,
+                "POST",
+                HTTP_MIMETYPE,
+                "application/x-www-form-urlencoded"
+            ],
+            "waypoints="+(string)waypoint+
+            "&links="+(string)links
+        );
+    }
+
+    
 }
 
 
@@ -925,21 +948,28 @@ integer ProcessNPCCommand(string inputString)
         }
         
         osNpcSay(uNPC, "Let me think... ");
-        string cachekey = "f,"+(string)nearest+","+(string)foundId;
         string gotoPath ="";
-        integer fidx = llListFindList(cache, [cachekey]);
-        if (fidx>=0)
+        if (USE_SERVER_PATHFIND == 0)
         {
-            gotoPath = llList2String(cache, fidx+1);
+            string cachekey = "f,"+(string)nearest+","+(string)foundId;
+            integer fidx = llListFindList(cache, [cachekey]);
+            if (fidx>=0)
+            {
+                gotoPath = llList2String(cache, fidx+1);
+            }
+            else
+            {
+                gotoPath = GetGotoPath(nearest, foundId);
+                if (gotoPath != "")
+                {
+                    cache += cachekey;
+                    cache += gotoPath;
+                }
+            }
         }
         else
         {
-            gotoPath = GetGotoPath(nearest, foundId);
-            if (gotoPath != "")
-            {
-                cache += cachekey;
-                cache += gotoPath;
-            }
+            
         }
         if (gotoPath == "")
         {
@@ -2010,3 +2040,7 @@ default
 
 }
 
+http_response(key request_id, integer status, list metadata, string body)
+{
+    llWhisper(0, "Web server said: " + body);
+}
