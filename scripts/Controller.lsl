@@ -5,7 +5,7 @@ integer autoLoadOnReset=0;
 string LASTNAME="(NPC)";
 
 // Server config
-integer USE_SERVER_PATHFIND=1; // how often to run the timer
+integer USE_SERVER_PATHFIND=1; // (1)Use server pathfind or (0)LSL implementation?
 string SERVER_URL="localhost:8080/";
 string SERVER_UPDATE_MAP_URL=SERVER_URL+"update_map";
 string SERVER_FIND_PATH_URL=SERVER_URL+"find_path";
