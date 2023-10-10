@@ -1,0 +1,28 @@
+Endpoint utilizado para simular uma conversa com um chatbot.
+Por trás dos panos, realiza uma requisição a um modelo de linguagem como ChatGPT.
+---
+tags:
+  - Chatbot
+parameters:
+  - name: user_prompt
+    in: formData
+    description: A mensagem que o usuário final deseja enviar ao bot.
+    required: true
+    type: string
+  - name: bot_premisse
+    in: formData
+    description: Parâmetro opcional. Premissa que o bot utilizará para responder o usuário. Caso não seja passado, 
+      o bot simulará ser um assistente da UFSC e dará respostas curtas, como no exemplo.
+    required: false
+    type: string
+    default: null
+    example: "Você é um assistente na Universidade Federal de Santa Catarina (UFSC) - Campus Florianópolis/Trindade.
+      Você será providenciado com uma pergunta ou fala qualquer de um estudante dessa universidade.
+      Responda de acordo e de maneira curta, concisa."
+  - name: use_openai
+    in: formData
+    description: Especifica se a requisição deve ser feita à API de OpenAI (ChatGPT). Para isso, é necessário que
+      a chave da API cadastrada no servidor referencie uma conta com créditos.
+    required: false
+    type: boolean
+    default: false
