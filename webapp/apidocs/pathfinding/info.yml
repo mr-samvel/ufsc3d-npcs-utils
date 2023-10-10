@@ -1,0 +1,51 @@
+Endpoint utilizado para testes.
+Retorna os parâmetros passados no header e no formulário da requisição.
+---
+tags:
+  - Pathfinding
+parameters:
+  - name: X-SecondLife-Object-Name
+    in: header
+    description: Object name from SecondLife
+    required: true
+    type: string
+  - name: X-SecondLife-Object-Key
+    in: header
+    description: Object key from SecondLife
+    required: true
+    type: string
+  - name: X-SecondLife-Owner-Key
+    in: header
+    description: Owner key from SecondLife
+    required: true
+    type: string
+  - name: X-SecondLife-Owner-Name
+    in: header
+    description: Owner name from SecondLife
+    required: true
+    type: string
+  - name: X-SecondLife-Region
+    in: header
+    description: Region from SecondLife
+    required: true
+    type: string
+  - name: parameter1
+    in: formData
+    description: Parameter 1
+    required: true
+    type: string
+  - name: parameter2
+    in: formData
+    description: Parameter 2
+    required: true
+    type: string
+responses:
+  200:
+    description: Some information
+    schema:
+      type: object
+      properties:
+        type:
+          type: string
+        return:
+          type: string

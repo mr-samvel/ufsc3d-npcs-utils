@@ -1,2 +1,4 @@
+# ambiente ufsc3d utiliza python 3.6
 gunicorn
-flask
+flask==2.0.3
+flasgger

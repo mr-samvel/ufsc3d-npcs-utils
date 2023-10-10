@@ -1,0 +1,28 @@
+Atualiza o mapa a partir dos waypoints e links passados.
+Substitui os waypoints e links preexistentes e a partir dos novos recria edges e neighbors.
+---
+tags:
+  - Pathfinding
+parameters:
+  - name: waypoints
+    in: formData
+    description: Lista de tuplas de coordenadas de waypoints, contendo (x,y,z,label), separadas por quebra de linha
+    required: true
+    type: string
+    example: "173.506958,80.200691,24.587257,INE_Porta\n152.754883,93.658005,24.475264,\n146.383163,90.382210,24.475252,"
+  - name: links
+    in: formData
+    description: Lista de tuplas de links entre waypoints, contendo (waypoint0,waypoint1,), separadas por quebra de linha
+    required: true
+    type: string
+    example: "1,0,\n2,3,\n4,3,"
+responses:
+  200:
+    description: Ok!
+    schema:
+      type: object
+      properties:
+        type:
+          type: string
+        return:
+          type: string

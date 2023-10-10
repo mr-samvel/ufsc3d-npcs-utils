@@ -1,0 +1,25 @@
+Retorna as informações que compõem o mapa (waypoints, links, edged, nodes, neighbors).
+---
+tags:
+  - Pathfinding
+responses:
+  200:
+    description: Current map data
+    schema:
+      type: object
+      properties:
+        type:
+          type: string
+        return:
+          type: object
+          properties:
+            waypoints:
+              type: object
+            links:
+              type: object
+            edges:
+              type: object
+            nodes:
+              type: object
+            neighborns:
+              type: object
