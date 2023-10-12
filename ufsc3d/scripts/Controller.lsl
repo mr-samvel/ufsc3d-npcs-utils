@@ -6,9 +6,9 @@ string LASTNAME="(NPC)";
 
 // Server config
 integer USE_SERVER_PATHFIND=1; // (1)Use server pathfind or (0)LSL implementation?
-string SERVER_URL="localhost:8080/";
-string SERVER_UPDATE_MAP_URL=SERVER_URL+"update_map";
-string SERVER_FIND_PATH_URL=SERVER_URL+"find_path";
+string SERVER_URL="http://ufsc3d.inf.ufsc.br:8080/";
+string SERVER_UPDATE_MAP_URL="http://ufsc3d.inf.ufsc.br:8080/pathfinding/update_map";
+string SERVER_FIND_PATH_URL="http://ufsc3d.inf.ufsc.br:8080/pathfinding/find_path";
 
 
 // Nothing to edit here, see https://github.com/opensimworld/active-npcs for configuration

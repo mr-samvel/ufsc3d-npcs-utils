@@ -12,6 +12,6 @@ def route_chat():
         user_prompt = request.form.get('user_prompt', type=str)
         bot_prompt = request.form.get('bot_premisse', type=str, default=None)
         use_openai = request.form.get('use_openai', type=bool, default=False)
-        return chat(user_prompt, use_openai, bot_prompt)
+        return chat(user_prompt, use_openai, system_prompt=bot_prompt)
     except Exception as e:
         print(e)
