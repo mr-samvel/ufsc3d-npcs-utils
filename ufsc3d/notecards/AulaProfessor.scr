@@ -6,4 +6,5 @@ if name-is Professor
     zero aulaOcorrendo
     leave
     setvar alunosEmSala 0
+    say Fim da aula
 end-if
