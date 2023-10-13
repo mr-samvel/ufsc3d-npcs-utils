@@ -1,7 +1,7 @@
 from urllib import response
 import requests
 
-url = "http://localhost:8080/"
+url = "http://ufsc3d.inf.ufsc.br:8080/"
 
 waypoints = """
 1178,861,28,INE_Porta
@@ -107,7 +107,7 @@ links = """
 
 print("====Update Map====")
 response = requests.post(
-    url+"update_map",
+    url+"pathfinding/update_map",
     data = {
         "waypoints": waypoints,
         "links": links,
@@ -116,27 +116,7 @@ response = requests.post(
 print(response.text)
 
 print("====Current Map====")
-response = requests.post(
-    url+"current_map",
-)
-print(response.text)
-
-print("====Find Path====")
-response = requests.post(
-    url+"find_path",
-    data = {
-        "orig": 0,
-        "dest": 11,
-        "idx": 0,
-    }
-)
-print(response.text)
-response = requests.post(
-    url+"find_path",
-    data = {
-        "orig": 0,
-        "dest": 12,
-        "idx": 0,
-    }
+response = requests.get(
+    url+"pathfinding/current_map",
 )
 print(response.text)
