@@ -28,7 +28,7 @@ default
                         HTTP_MIMETYPE,
                         "application/x-www-form-urlencoded"
                     ],
-                    "user_promt="+(string)requestData
+                    "user_prompt="+(string)requestData
                 );
 
             }
@@ -42,7 +42,7 @@ default
                         HTTP_MIMETYPE,
                         "application/x-www-form-urlencoded"
                     ],
-                    "user_promt="+(string)requestData+
+                    "user_prompt="+(string)requestData+
                     "&use_openai="+TRUE
                 );
             }
