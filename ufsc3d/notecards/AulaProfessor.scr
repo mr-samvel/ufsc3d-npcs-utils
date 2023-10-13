@@ -1,0 +1,9 @@
+setvar aulaOcorrendo 1
+setvar alunosEmSala 0
+if name-is Professor
+    go to S1Pr
+    wait 500
+    zero aulaOcorrendo
+    leave
+    setvar alunosEmSala 0
+end-if

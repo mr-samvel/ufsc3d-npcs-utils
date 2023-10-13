@@ -1,0 +1,6 @@
+if var-is aulaOcorrendo 1
+    wait aulaOcorrendo 0
+    go to CentroID
+    leave
+end-if
+go to CentroID

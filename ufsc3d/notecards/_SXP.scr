@@ -1,0 +1,17 @@
+if-not name-is Professor Estudante
+    go to CentroID
+end-if
+if var-is aulaOcorrendo 1
+    if name-is Estudante
+        if var-is alunosEmSala 0
+            moveto IDCadeira1
+        end-if
+        if var-is alunosEmSala 1
+            moveto IDCadeira2
+        end-if
+        if var-is alunosEmSala 2
+            moveto IDCadeira3
+        end-if
+    end-if
+    increase alunosEmSala
+end-if

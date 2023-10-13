@@ -1,0 +1,15 @@
+if name-is Estudante
+    go to SXP
+end-if
+if var-is aulaOcorrendo 1
+    if var-is alunosEmSala 0
+        go to SXAX
+    end-if
+    if var-is alunosEmSala 1
+        go to SXAX
+    end-if
+    if var-is alunosEmSala 2
+        go to SXAX
+    end-if
+    increase alunosEmSala
+end-if
