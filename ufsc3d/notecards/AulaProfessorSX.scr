@@ -1,2 +1,3 @@
-setvar alunosEmSala 0
+setvar alunosEmSalaX 0
+setvar aulaSalaXOcorrendo 1
 go to SXPr

@@ -1,2 +1,3 @@
+setvar aulaSalaXOcorrendo 0
 go to CentroX
 leave
