@@ -40,9 +40,9 @@ handleEvent(integer id, string data) {
         scheduleEvent(2, llGetUnixTime() + 60, "Transicao1");
     } else if (id == 2) {
         llOwnerSay(data)
-        llRegionSay(68, "! 0000-0000-0000-0000 ProfessorX ProfessorX run-notecard AulaFimProfessorSX.scr");
-        llRegionSay(68, "! 0000-0000-0000-0000 EstudanteX EstudanteX run-notecard AulaFimEstudanteSX.scr");
-        llRegionSay(68, "! 0000-0000-0000-0000 EstudanteX EstudanteX run-notecard AulaFimEstudanteSX.scr");
+        llRegionSay(68, "! 0000-0000-0000-0000 ProfessorX ProfessorX run-notecard AulaFimSX.scr");
+        llRegionSay(68, "! 0000-0000-0000-0000 EstudanteX EstudanteX run-notecard AulaFimSX.scr");
+        llRegionSay(68, "! 0000-0000-0000-0000 EstudanteX EstudanteX run-notecard AulaFimSX.scr");
         scheduleEvent(3, llGetUnixTime() + 30, "Aula 2");
     } else if (id == 3) {
         llOwnerSay(data)
@@ -52,9 +52,9 @@ handleEvent(integer id, string data) {
         scheduleEvent(4, llGetUnixTime() + 60, "Transicao2");
     } else if (id == 4) {
         llOwnerSay(data)
-        llRegionSay(68, "! 0000-0000-0000-0000 ProfessorX ProfessorX run-notecard AulaFimProfessorSX.scr");
-        llRegionSay(68, "! 0000-0000-0000-0000 EstudanteY EstudanteY run-notecard AulaFimEstudanteSX.scr");
-        llRegionSay(68, "! 0000-0000-0000-0000 EstudanteY EstudanteY run-notecard AulaFimEstudanteSX.scr");
+        llRegionSay(68, "! 0000-0000-0000-0000 ProfessorX ProfessorX run-notecard AulaFimSX.scr");
+        llRegionSay(68, "! 0000-0000-0000-0000 EstudanteY EstudanteY run-notecard AulaFimSX.scr");
+        llRegionSay(68, "! 0000-0000-0000-0000 EstudanteY EstudanteY run-notecard AulaFimSX.scr");
         scheduleEvent(1, llGetUnixTime() + 30, "Aula 1");
     }
 }
